@@ -87,7 +87,7 @@ namespace YiJingFramework.Core
 
             var thisLength = this.checkedLines.Length;
             {
-                var otherLength = this.checkedLines.Length;
+                var otherLength = other.checkedLines.Length;
                 if (thisLength > otherLength)
                     return 1;
                 else if (thisLength < otherLength)
@@ -108,7 +108,6 @@ namespace YiJingFramework.Core
         }
         /// <summary>
         /// Returns the hash code for this instance.
-        /// It is an <see cref="int"/> equivalent of the painting when there are less then 32 lines.
         /// </summary>
         /// <returns>A hash code for the current instance.</returns>
         public override int GetHashCode()
@@ -119,7 +118,7 @@ namespace YiJingFramework.Core
                 foreach (var line in this.checkedLines)
                 {
                     result <<= 1;
-                    result += (int)LineAttribute.Yang;
+                    result += (int)line;
                 }
                 return result;
             }
@@ -188,8 +187,8 @@ namespace YiJingFramework.Core
         public override string ToString()
         {
             StringBuilder stringBuilder = new(this.checkedLines.Length);
-            foreach (var line in this.checkedLines)
-                stringBuilder.Append((int)line);
+            for (int i = this.checkedLines.Length - 1; i >= 0; i--)
+                stringBuilder.Append((int)this.checkedLines[i]);
             return stringBuilder.ToString();
         }
 
@@ -211,8 +210,9 @@ namespace YiJingFramework.Core
                 return false;
             }
             List<LineAttribute> r = new(s.Length);
-            foreach (var c in s)
+            for (int i = s.Length - 1; i >= 0; i--)
             {
+                var c = s[i];
                 switch (c)
                 {
                     case '0':
@@ -242,8 +242,8 @@ namespace YiJingFramework.Core
             for (int i = 0; i < thisLength; i++)
                 bitArray.Set(i, Convert.ToBoolean((int)this.checkedLines[i]));
             bitArray.Set(thisLength, true);
-            byte[] bytes = new byte[1];
-            bitArray.CopyTo(bytes, bitArray.Length + 7 / 8);
+            byte[] bytes = new byte[(bitArray.Length + 7) / 8];
+            bitArray.CopyTo(bytes, 0);
             return bytes;
         }
 
@@ -257,19 +257,24 @@ namespace YiJingFramework.Core
             if (bytes is null)
                 throw new ArgumentNullException(nameof(bytes));
             BitArray bitArray = new(bytes);
-            List<LineAttribute> r = new(bytes.Length);
-            bool notStarted = true;
-            for (int i = bitArray.Length - 1; i >= 0; i--)
+            List<LineAttribute> r = new(bitArray.Length);
+            int zeroCount = 0;
+            for (int i = 0; i < bitArray.Length; i++)
             {
                 var bit = bitArray[i];
-                if (notStarted)
+                if (bit)
                 {
-                    if (bit)
-                        notStarted = false;
-                    continue;
+                    for (int j = 0; j < zeroCount; j++)
+                    {
+                        r.Add(LineAttribute.Yin);
+                    }
+                    r.Add(LineAttribute.Yang);
+                    zeroCount = 0;
                 }
-                r.Add(bit ? LineAttribute.Yang : LineAttribute.Yin);
+                else
+                    zeroCount++;
             }
+            r.RemoveAt(r.Count - 1);
             return new Painting(r);
         }
         #endregion
