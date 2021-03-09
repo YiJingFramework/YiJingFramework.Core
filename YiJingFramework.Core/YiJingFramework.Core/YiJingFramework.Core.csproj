@@ -3,6 +3,31 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>YiJingFramework.Core</PackageId>
+    <Version>0.0.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>yueyinqiu5990</Authors>
+    <Company />
+    <Description>A C# library about Yi Jing.</Description>
+    <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/yueyinqiu/YiJingFramework.Core/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yueyinqiu/YiJingFramework.Core.git</RepositoryUrl>
+    <PackageIcon>Taichi.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>zhouyi;i-ching;yijing</PackageTags>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>obj\Release\net5.0\YiJingFramework.Core.xml</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Taichi.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
