@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>YiJingFramework.Core</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>yueyinqiu5990</Authors>
     <Company />
@@ -20,7 +20,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>obj\Release\net5.0\YiJingFramework.Core.xml</OutputPath>
+    <OutputPath></OutputPath>
+    <DocumentationFile>obj\Release\net5.0\YiJingFramework.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
