@@ -11,23 +11,48 @@ namespace YiJingFramework.Core
 {
     /// <summary>
     /// 卦画。
-    /// Represents a painting made up by the yin and yang lines.
-    /// When you use this as an <see cref="IEnumerable"/> or an <see cref="IEnumerable{T}"/> , you will get the lower lines first.
+    /// 爻位置越低，序号越小。
+    /// A painting made up by the yin and yang lines.
+    /// The lower a line, the smaller its index.
     /// </summary>
     public class Painting : IReadOnlyList<LineAttribute>, IComparable<Painting>, IEquatable<Painting>
     {
         private readonly LineAttribute[] checkedLines;
         /// <summary>
-        /// Initializes a new instance of <seealso cref="Painting"/>.
+        /// 创建新实例。
+        /// Initializes a new instance.
         /// </summary>
-        /// <param name="lines">The lines, with the lower ones going first.</param>
+        /// <param name="lines">
+        /// 各爻的性质。
+        /// The lines' attributes.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="lines"/> 是 <c>null</c> 。
+        /// <paramref name="lines"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="UnexpectedLineAttributeException">
+        /// <paramref name="lines"/> 中存在不应该出现的值。
+        /// <paramref name="lines"/> contains a invalid value.
+        /// </exception>
         public Painting(params LineAttribute[] lines)
             : this((IEnumerable<LineAttribute>)lines) { }
 
         /// <summary>
-        /// Initializes a new instance of <seealso cref="Painting"/>.
+        /// 创建新实例。
+        /// Initializes a new instance.
         /// </summary>
-        /// <param name="lines">The lines, with the lower ones going first.</param>
+        /// <param name="lines">
+        /// 各爻的性质。
+        /// The lines' attributes.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="lines"/> 是 <c>null</c> 。
+        /// <paramref name="lines"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="UnexpectedLineAttributeException">
+        /// <paramref name="lines"/> 中存在不应该出现的值。
+        /// <paramref name="lines"/> contains a invalid value.
+        /// </exception>
         public Painting(IEnumerable<LineAttribute> lines)
         {
             if (lines is null)
@@ -44,28 +69,35 @@ namespace YiJingFramework.Core
 
         #region Collecting
         /// <summary>
-        /// Get a line in the painting.
+        /// 获取某一根爻的性质。
+        /// Get the attribute of a line.
         /// </summary>
         /// <param name="index">
-        /// The index of the line you want to get.
-        /// The higher the value is, the upper the line it represents.
-        /// The minimum value is 0.
+        /// 爻的序号。
+        /// The index of the line.
         /// </param>
-        /// <returns>The line.</returns>
-        /// <exception cref="IndexOutOfRangeException"> <paramref name="index"/> is out of range.</exception>
+        /// <returns>
+        /// 爻的性质。
+        /// The line.
+        /// </returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// <paramref name="index"/> 超出范围。
+        /// <paramref name="index"/> is out of range.
+        /// </exception>
         public LineAttribute this[int index]
             => this.checkedLines[index];
 
         /// <summary>
-        /// Get the count of the lines in this painting.
+        /// 获取爻的个数。
+        /// Get the count of the lines.
         /// </summary>
         public int Count
             => this.checkedLines.Length;
+
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// When you use this enumerator, you will get the lower lines first.
+        /// 
         /// </summary>
-        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        /// <returns></returns>
         public IEnumerator<LineAttribute> GetEnumerator()
             => ((IEnumerable<LineAttribute>)this.checkedLines).GetEnumerator();
 
@@ -76,10 +108,10 @@ namespace YiJingFramework.Core
         #region Comparing
 
         /// <summary>
-        /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+        /// 
         /// </summary>
-        /// <param name="other">An object to compare with this instance.</param>
-        /// <returns>A value that indicates the relative order of the objects being compared.</returns>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public int CompareTo(Painting? other)
         {
             if (other is null)
@@ -106,10 +138,11 @@ namespace YiJingFramework.Core
 
             return 0;
         }
+
         /// <summary>
-        /// Returns the hash code for this instance.
+        /// 
         /// </summary>
-        /// <returns>A hash code for the current instance.</returns>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
@@ -124,10 +157,17 @@ namespace YiJingFramework.Core
             }
         }
         /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified object.
+        /// 判断是否与另一个对象相同。
+        /// Determine whether this instance is same as a specified object.
         /// </summary>
-        /// <param name="other">An object to compare with this instance, or <c>null</c>.</param>
-        /// <returns><c>true</c> if <paramref name="other"/> is equal to this instance; otherwise, <c>false</c>.</returns>
+        /// <param name="other">
+        /// 要比较的对象。
+        /// The object to compare with.
+        /// </param>
+        /// <returns>
+        /// 判断结果。
+        /// The result.
+        /// </returns>
         public override bool Equals(object? other)
         {
             if (other is Painting painting)
@@ -135,10 +175,17 @@ namespace YiJingFramework.Core
             return false;
         }
         /// <summary>
-        /// Returns a value indicating whether this instance and a specified <see cref="Painting"/> object represent the same value.
+        /// 判断是否与另一个卦画相同。
+        /// Determine whether this instance is same as a specified painting.
         /// </summary>
-        /// <param name="other">An object to compare to this instance, or <c>null</c>.</param>
-        /// <returns><c>true</c> if <paramref name="other"/> is equal to this instance; otherwise, <c>false</c>.</returns>
+        /// <param name="other">
+        /// 要比较的卦画。
+        /// The painting to compare with.
+        /// </param>
+        /// <returns>
+        /// 判断结果。
+        /// The result.
+        /// </returns>
         public bool Equals(Painting? other)
         {
             if (other is null)
@@ -147,11 +194,20 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// Returns a value indicating whether two <see cref="Painting"/> objects represent the same value.
+        /// 判断两个卦画是否相同。
+        /// Determine whether two paintings are the same.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns><c>true</c> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <param name="left">
+        /// 左值。
+        /// The left value.
+        /// </param>
+        /// <param name="right">
+        /// 右值。
+        /// The right value.
+        /// </param>
+        /// <returns>
+        /// 判断结果。
+        /// </returns>
         public static bool operator ==(Painting? left, Painting? right)
         {
             if (left is null)
@@ -162,11 +218,20 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// Returns a value indicating whether two <see cref="Painting"/> objects represent two different values.
+        /// 判断两个卦画是否不相同。
+        /// Determine whether two paintings are not the same.
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns><c>true</c> if <paramref name="left"/> isn't equal to <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        /// <param name="left">
+        /// 左值。
+        /// The left value.
+        /// </param>
+        /// <param name="right">
+        /// 右值。
+        /// The right value.
+        /// </param>
+        /// <returns>
+        /// 判断结果。
+        /// </returns>
         public static bool operator !=(Painting? left, Painting? right)
         {
             if (left is null)
@@ -180,10 +245,15 @@ namespace YiJingFramework.Core
         #region Converting
 
         /// <summary>
-        /// Returns a string that represents the painting.
+        /// 返回一个可以完全表示此卦画的字符串。
+        /// 可以使用 <seealso cref="TryParse(string?, out Painting)"/> 转换回。
+        /// Returns a string that can completely represents the painting.
         /// You can use <seealso cref="TryParse(string?, out Painting)"/> to convert it back.
         /// </summary>
-        /// <returns>The string.</returns>
+        /// <returns>
+        /// 结果字符串。
+        /// The string.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder stringBuilder = new(this.checkedLines.Length);
@@ -193,13 +263,21 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// Convert from a <see cref="string"/>.
+        /// 从字符串转回。
+        /// Convert from a string.
         /// </summary>
         /// <param name="s">
-        /// The string represents the painting.
+        /// 可以表示此卦画的字符串。
+        /// The string that represents the painting.
         /// </param>
-        /// <param name="result">The painting.</param>
-        /// <returns>A value indicates whether it has been successfully converted or not.</returns>
+        /// <param name="result">
+        /// 卦画。
+        /// The painting.
+        /// </param>
+        /// <returns>
+        /// 一个指示转换成功与否的值。
+        /// A value indicates whether it has been successfully converted or not.
+        /// </returns>
         public static bool TryParse(
             [NotNullWhen(true)] string? s,
             [MaybeNullWhen(false)] out Painting result)
@@ -231,10 +309,15 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// Convert to a <see cref="byte"/> array.
-        /// You can convert it back by using <seealso cref="FromBytes(byte[])"/> .
+        /// 返回一个可以完全表示此卦画的字节数组。
+        /// 可以使用 <seealso cref="FromBytes(byte[])"/> 转换回。
+        /// Returns a byte array that can completely represents the painting.
+        /// You can use <seealso cref="FromBytes(byte[])"/> to convert it back.
         /// </summary>
-        /// <returns>The byte that can represent this painting.</returns>
+        /// <returns>
+        /// 结果字节数组。
+        /// The array.
+        /// </returns>
         public byte[] ToBytes()
         {
             var thisLength = this.checkedLines.Length;
@@ -248,10 +331,21 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// Convert from a <see cref="byte"/> array.
+        /// 从字节数组转回。
+        /// Convert from a byte array.
         /// </summary>
-        /// <param name="bytes">The bytes that represents this painting.</param>
-        /// <returns>The painting.</returns>
+        /// <param name="bytes">
+        /// 可以表示此卦画的字节数组。
+        /// The byte array that represents the painting.
+        /// </param>
+        /// <returns>
+        /// 卦画。
+        /// The painting.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="bytes"/> 是 <c>null</c> 。
+        /// <paramref name="bytes"/> is <c>null</c>.
+        /// </exception>
         public static Painting FromBytes(params byte[] bytes)
         {
             if (bytes is null)
