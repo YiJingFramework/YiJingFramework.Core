@@ -10,13 +10,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>yueyinqiu5990</Authors>
     <Company />
-    <Description>A C# library about Yi Jing.</Description>
+    <Description>YiJingFramework is a C# library (group) about Yi Jing.</Description>
     <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/yueyinqiu/YiJingFramework.Core/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yueyinqiu/YiJingFramework.Core.git</RepositoryUrl>
     <PackageIcon>Taichi.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>zhouyi;i-ching;yijing</PackageTags>
+    <PackageTags>zhouyi;i-ching;yijing;yijingframework</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
