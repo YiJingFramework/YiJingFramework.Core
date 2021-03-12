@@ -60,7 +60,7 @@ namespace YiJingFramework.Core
             var list = new List<LineAttribute>();
             foreach (var line in lines)
             {
-                if (line != LineAttribute.Yang && line != LineAttribute.Yin)
+                if (line is not LineAttribute.Yang and not LineAttribute.Yin)
                     throw new UnexpectedLineAttributeException(line);
                 list.Add(line);
             }
@@ -99,10 +99,14 @@ namespace YiJingFramework.Core
         /// </summary>
         /// <returns></returns>
         public IEnumerator<LineAttribute> GetEnumerator()
-            => ((IEnumerable<LineAttribute>)this.checkedLines).GetEnumerator();
+        {
+            return ((IEnumerable<LineAttribute>)this.checkedLines).GetEnumerator();
+        }
 
         IEnumerator IEnumerable.GetEnumerator()
-            => this.checkedLines.GetEnumerator();
+        {
+            return this.checkedLines.GetEnumerator();
+        }
         #endregion
 
         #region Comparing
@@ -258,7 +262,7 @@ namespace YiJingFramework.Core
         {
             StringBuilder stringBuilder = new(this.checkedLines.Length);
             for (int i = this.checkedLines.Length - 1; i >= 0; i--)
-                stringBuilder.Append((int)this.checkedLines[i]);
+                _ = stringBuilder.Append((int)this.checkedLines[i]);
             return stringBuilder.ToString();
         }
 
