@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YiJingFramework.Core", "YiJingFramework.Core\YiJingFramework.Core.csproj", "{FE004CB5-2760-4D74-BC38-0E349F58FE94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YiJingFramework.CoreTests", "YiJingFramework.CoreTests\YiJingFramework.CoreTests.csproj", "{27AF2507-CC99-47E1-A9C6-F0B3B0BDE517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YiJingFramework.CoreTests", "YiJingFramework.CoreTests\YiJingFramework.CoreTests.csproj", "{27AF2507-CC99-47E1-A9C6-F0B3B0BDE517}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3D621DE-0548-4B22-9C83-40EA37799850}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
