@@ -261,8 +261,8 @@ namespace YiJingFramework.Core
         public override string ToString()
         {
             StringBuilder stringBuilder = new(this.checkedLines.Length);
-            for (int i = this.checkedLines.Length - 1; i >= 0; i--)
-                _ = stringBuilder.Append((int)this.checkedLines[i]);
+            foreach(var line in checkedLines)
+                _ = stringBuilder.Append((int)line);
             return stringBuilder.ToString();
         }
 
@@ -292,9 +292,8 @@ namespace YiJingFramework.Core
                 return false;
             }
             List<LineAttribute> r = new(s.Length);
-            for (int i = s.Length - 1; i >= 0; i--)
+            foreach(var c in s)
             {
-                var c = s[i];
                 switch (c)
                 {
                     case '0':
@@ -363,9 +362,7 @@ namespace YiJingFramework.Core
                 if (bit)
                 {
                     for (int j = 0; j < zeroCount; j++)
-                    {
                         r.Add(LineAttribute.Yin);
-                    }
                     r.Add(LineAttribute.Yang);
                     zeroCount = 0;
                 }

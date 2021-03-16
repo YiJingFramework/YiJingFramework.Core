@@ -166,9 +166,9 @@ namespace YiJingFramework.Core.Tests
             var p0 = GetEmptyPainting();
             Assert.AreEqual("", p0.ToString());
             var p1 = GetPainting1();
-            Assert.AreEqual("011", p1.ToString());
+            Assert.AreEqual("110", p1.ToString());
             var p2 = GetPainting2();
-            Assert.AreEqual("1011", p2.ToString());
+            Assert.AreEqual("1101", p2.ToString());
         }
 
         [TestMethod()]
