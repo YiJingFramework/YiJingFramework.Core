@@ -224,5 +224,56 @@ namespace YiJingFramework.Core.Tests
                     .SequenceEqual(painting));
             }
         }
+
+        [TestMethod()]
+        public void PropertiesTest()
+        {
+            var p0 = GetEmptyPainting();
+            var p1 = GetPainting1();
+
+            Assert.AreEqual(0, p0.Count);
+            Assert.AreEqual(3, p1.Count);
+            Assert.AreEqual(LineAttribute.Yang, p1[0]);
+            Assert.AreEqual(LineAttribute.Yang, p1[1]);
+            Assert.AreEqual(LineAttribute.Yin, p1[2]);
+        }
+        [TestMethod()]
+        public void OperatorsTest()
+        {
+            Assert.IsFalse(new Painting() == null);
+            Assert.IsFalse(null == new Painting());
+            Assert.IsTrue(new Painting() != null);
+            Assert.IsTrue(null != new Painting());
+            Random random = new Random();
+            for (int i = 0; i < 20;)
+            {
+                var c = random.Next(5, 10);
+                List<LineAttribute> lines1 = new();
+                for (int j = 0; j < c; j++)
+                {
+                    lines1.Add((LineAttribute)random.Next(0, 2));
+                }
+                List<LineAttribute> lines2 = new();
+                for (int j = 0; j < c; j++)
+                {
+                    lines2.Add((LineAttribute)random.Next(0, 2));
+                }
+                if (lines1.SequenceEqual(lines2))
+                {
+                    Assert.IsTrue(new Painting(lines1) == new Painting(lines2));
+                    Assert.IsFalse(new Painting(lines1) != new Painting(lines2));
+                    Assert.IsTrue(new Painting(lines2) == new Painting(lines1));
+                    Assert.IsFalse(new Painting(lines2) != new Painting(lines1));
+                    i++;
+                }
+                else
+                {
+                    Assert.IsFalse(new Painting(lines1) == new Painting(lines2));
+                    Assert.IsTrue(new Painting(lines1) != new Painting(lines2));
+                    Assert.IsFalse(new Painting(lines2) == new Painting(lines1));
+                    Assert.IsTrue(new Painting(lines2) != new Painting(lines1));
+                }
+            }
+        }
     }
 }
