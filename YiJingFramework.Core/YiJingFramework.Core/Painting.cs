@@ -160,36 +160,24 @@ namespace YiJingFramework.Core
                 return result;
             }
         }
+
         /// <summary>
-        /// 判断是否与另一个对象相同。
-        /// Determine whether this instance is same as a specified object.
+        /// 
         /// </summary>
-        /// <param name="other">
-        /// 要比较的对象。
-        /// The object to compare with.
-        /// </param>
-        /// <returns>
-        /// 判断结果。
-        /// The result.
-        /// </returns>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public override bool Equals(object? other)
         {
             if (other is Painting painting)
                 return this.checkedLines.SequenceEqual(painting.checkedLines);
             return false;
         }
+
         /// <summary>
-        /// 判断是否与另一个卦画相同。
-        /// Determine whether this instance is same as a specified painting.
+        /// 
         /// </summary>
-        /// <param name="other">
-        /// 要比较的卦画。
-        /// The painting to compare with.
-        /// </param>
-        /// <returns>
-        /// 判断结果。
-        /// The result.
-        /// </returns>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Painting? other)
         {
             if (other is null)
@@ -198,20 +186,11 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// 判断两个卦画是否相同。
-        /// Determine whether two paintings are the same.
+        /// 
         /// </summary>
-        /// <param name="left">
-        /// 左值。
-        /// The left value.
-        /// </param>
-        /// <param name="right">
-        /// 右值。
-        /// The right value.
-        /// </param>
-        /// <returns>
-        /// 判断结果。
-        /// </returns>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(Painting? left, Painting? right)
         {
             if (left is null)
@@ -222,20 +201,11 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
-        /// 判断两个卦画是否不相同。
-        /// Determine whether two paintings are not the same.
+        /// 
         /// </summary>
-        /// <param name="left">
-        /// 左值。
-        /// The left value.
-        /// </param>
-        /// <param name="right">
-        /// 右值。
-        /// The right value.
-        /// </param>
-        /// <returns>
-        /// 判断结果。
-        /// </returns>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(Painting? left, Painting? right)
         {
             if (left is null)
