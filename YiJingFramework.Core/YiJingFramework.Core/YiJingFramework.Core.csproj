@@ -6,14 +6,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>YiJingFramework.Core</PackageId>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>yueyinqiu5990</Authors>
-    <Company />
+    <Company>YiJingFramework</Company>
     <Description>YiJingFramework is a C# library (group) about Yi Jing.</Description>
     <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/yueyinqiu/YiJingFramework.Core/wiki</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/yueyinqiu/YiJingFramework.Core.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/YiJingFramework/YiJingFramework.Core/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/YiJingFramework/YiJingFramework.Core.git</RepositoryUrl>
     <PackageIcon>Taichi.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageTags>zhouyi;i-ching;yijing;yijingframework</PackageTags>
