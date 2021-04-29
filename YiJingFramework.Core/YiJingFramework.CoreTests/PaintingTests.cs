@@ -16,23 +16,23 @@ namespace YiJingFramework.Core.Tests
         {
             return new Painting();
         }
-        private LineAttribute[] GetLinesOfPainting1()
+        private YinYang[] GetLinesOfPainting1()
         {
-            return new LineAttribute[] { LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yin };
+            return new YinYang[] { YinYang.Yang, YinYang.Yang, YinYang.Yin };
         }
         private Painting GetPainting1()
         {
-            var p1 = new Painting(LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yin);
+            var p1 = new Painting(YinYang.Yang, YinYang.Yang, YinYang.Yin);
             var pp1 = new Painting(GetLinesOfPainting1());
             Assert.IsTrue(p1.SequenceEqual(pp1));
             return pp1;
         }
-        IEnumerable<LineAttribute> GetLinesOfPainting2()
+        IEnumerable<YinYang> GetLinesOfPainting2()
         {
-            yield return LineAttribute.Yang;
-            yield return LineAttribute.Yang;
-            yield return LineAttribute.Yin;
-            yield return LineAttribute.Yang;
+            yield return YinYang.Yang;
+            yield return YinYang.Yang;
+            yield return YinYang.Yin;
+            yield return YinYang.Yang;
         }
         private Painting GetPainting2()
         {
@@ -73,18 +73,18 @@ namespace YiJingFramework.Core.Tests
             var p3 = GetPainting2();
             Assert.AreEqual(0, p2.CompareTo(p3));
 
-            var p4 = new Painting(LineAttribute.Yin, LineAttribute.Yin, LineAttribute.Yang);
-            var p5 = new Painting(LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yang);
+            var p4 = new Painting(YinYang.Yin, YinYang.Yin, YinYang.Yang);
+            var p5 = new Painting(YinYang.Yang, YinYang.Yang, YinYang.Yang);
             Assert.AreEqual(-1, p4.CompareTo(p5));
             Assert.AreEqual(1, p5.CompareTo(p4));
 
-            var p6 = new Painting(LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yin);
-            var p7 = new Painting(LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yang);
+            var p6 = new Painting(YinYang.Yang, YinYang.Yang, YinYang.Yin);
+            var p7 = new Painting(YinYang.Yang, YinYang.Yang, YinYang.Yang);
             Assert.AreEqual(-1, p6.CompareTo(p7));
             Assert.AreEqual(1, p7.CompareTo(p6));
 
-            p6 = new Painting(LineAttribute.Yang, LineAttribute.Yin, LineAttribute.Yang, LineAttribute.Yang);
-            p7 = new Painting(LineAttribute.Yin, LineAttribute.Yang, LineAttribute.Yang, LineAttribute.Yang);
+            p6 = new Painting(YinYang.Yang, YinYang.Yin, YinYang.Yang, YinYang.Yang);
+            p7 = new Painting(YinYang.Yin, YinYang.Yang, YinYang.Yang, YinYang.Yang);
             Assert.AreEqual(-1, p6.CompareTo(p7));
             Assert.AreEqual(1, p7.CompareTo(p6));
         }
@@ -108,15 +108,15 @@ namespace YiJingFramework.Core.Tests
             for(int i = 0; i < 20 ; )
             {
                 var c = random.Next(5, 10);
-                List<LineAttribute> lines1 = new();
+                List<YinYang> lines1 = new();
                 for (int j = 0;j < c;j++)
                 {
-                    lines1.Add((LineAttribute)random.Next(0, 2));
+                    lines1.Add((YinYang)random.Next(0, 2));
                 }
-                List<LineAttribute> lines2 = new();
+                List<YinYang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((LineAttribute)random.Next(0, 2));
+                    lines2.Add((YinYang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {
@@ -138,15 +138,15 @@ namespace YiJingFramework.Core.Tests
             for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
-                List<LineAttribute> lines1 = new();
+                List<YinYang> lines1 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines1.Add((LineAttribute)random.Next(0, 2));
+                    lines1.Add((YinYang)random.Next(0, 2));
                 }
-                List<LineAttribute> lines2 = new();
+                List<YinYang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((LineAttribute)random.Next(0, 2));
+                    lines2.Add((YinYang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {
@@ -180,9 +180,9 @@ namespace YiJingFramework.Core.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<LineAttribute> lines1 = new();
+                List<YinYang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((LineAttribute)random.Next(0, 2));
+                    lines1.Add((YinYang)random.Next(0, 2));
                 var painting = new Painting(lines1);
                 Assert.IsTrue(Painting.TryParse(painting.ToString(), out var rr));
                 Assert.IsTrue(rr.SequenceEqual(painting));
@@ -216,9 +216,9 @@ namespace YiJingFramework.Core.Tests
             for (int i = 0; i < 20; i++)
             {
                 var c = random.Next(0, 100);
-                List<LineAttribute> lines1 = new();
+                List<YinYang> lines1 = new();
                 for (int j = 0; j < c; j++)
-                    lines1.Add((LineAttribute)random.Next(0, 2));
+                    lines1.Add((YinYang)random.Next(0, 2));
                 var painting = new Painting(lines1);
                 Assert.IsTrue(Painting.FromBytes(painting.ToBytes())
                     .SequenceEqual(painting));
@@ -233,9 +233,9 @@ namespace YiJingFramework.Core.Tests
 
             Assert.AreEqual(0, p0.Count);
             Assert.AreEqual(3, p1.Count);
-            Assert.AreEqual(LineAttribute.Yang, p1[0]);
-            Assert.AreEqual(LineAttribute.Yang, p1[1]);
-            Assert.AreEqual(LineAttribute.Yin, p1[2]);
+            Assert.AreEqual(YinYang.Yang, p1[0]);
+            Assert.AreEqual(YinYang.Yang, p1[1]);
+            Assert.AreEqual(YinYang.Yin, p1[2]);
         }
         [TestMethod()]
         public void OperatorsTest()
@@ -248,15 +248,15 @@ namespace YiJingFramework.Core.Tests
             for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
-                List<LineAttribute> lines1 = new();
+                List<YinYang> lines1 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines1.Add((LineAttribute)random.Next(0, 2));
+                    lines1.Add((YinYang)random.Next(0, 2));
                 }
-                List<LineAttribute> lines2 = new();
+                List<YinYang> lines2 = new();
                 for (int j = 0; j < c; j++)
                 {
-                    lines2.Add((LineAttribute)random.Next(0, 2));
+                    lines2.Add((YinYang)random.Next(0, 2));
                 }
                 if (lines1.SequenceEqual(lines2))
                 {

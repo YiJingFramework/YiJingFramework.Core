@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YiJingFramework.Core.Exceptions;
 
 namespace YiJingFramework.Core
 {
@@ -15,9 +14,9 @@ namespace YiJingFramework.Core
     /// A painting made up by the yin and yang lines.
     /// The lower a line, the smaller its index.
     /// </summary>
-    public class Painting : IReadOnlyList<LineAttribute>, IComparable<Painting>, IEquatable<Painting>
+    public class Painting : IReadOnlyList<YinYang>, IComparable<Painting>, IEquatable<Painting>
     {
-        private readonly LineAttribute[] checkedLines;
+        private readonly YinYang[] lines;
         /// <summary>
         /// 创建新实例。
         /// Initializes a new instance.
@@ -30,12 +29,8 @@ namespace YiJingFramework.Core
         /// <paramref name="lines"/> 是 <c>null</c> 。
         /// <paramref name="lines"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="UnexpectedLineAttributeException">
-        /// <paramref name="lines"/> 中存在不应该出现的值。
-        /// <paramref name="lines"/> contains a invalid value.
-        /// </exception>
-        public Painting(params LineAttribute[] lines)
-            : this((IEnumerable<LineAttribute>)lines) { }
+        public Painting(params YinYang[] lines)
+            : this((IEnumerable<YinYang>)lines) { }
 
         /// <summary>
         /// 创建新实例。
@@ -49,22 +44,11 @@ namespace YiJingFramework.Core
         /// <paramref name="lines"/> 是 <c>null</c> 。
         /// <paramref name="lines"/> is <c>null</c>.
         /// </exception>
-        /// <exception cref="UnexpectedLineAttributeException">
-        /// <paramref name="lines"/> 中存在不应该出现的值。
-        /// <paramref name="lines"/> contains a invalid value.
-        /// </exception>
-        public Painting(IEnumerable<LineAttribute> lines)
+        public Painting(IEnumerable<YinYang> lines)
         {
             if (lines is null)
                 throw new ArgumentNullException(nameof(lines));
-            var list = new List<LineAttribute>();
-            foreach (var line in lines)
-            {
-                if (line is not LineAttribute.Yang and not LineAttribute.Yin)
-                    throw new UnexpectedLineAttributeException(line);
-                list.Add(line);
-            }
-            this.checkedLines = list.ToArray();
+            this.lines = lines.ToArray();
         }
 
         #region Collecting
@@ -84,28 +68,28 @@ namespace YiJingFramework.Core
         /// <paramref name="index"/> 超出范围。
         /// <paramref name="index"/> is out of range.
         /// </exception>
-        public LineAttribute this[int index]
-            => this.checkedLines[index];
+        public YinYang this[int index]
+            => this.lines[index];
 
         /// <summary>
         /// 获取爻的个数。
         /// Get the count of the lines.
         /// </summary>
         public int Count
-            => this.checkedLines.Length;
+            => this.lines.Length;
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<LineAttribute> GetEnumerator()
+        public IEnumerator<YinYang> GetEnumerator()
         {
-            return ((IEnumerable<LineAttribute>)this.checkedLines).GetEnumerator();
+            return ((IEnumerable<YinYang>)this.lines).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.checkedLines.GetEnumerator();
+            return this.lines.GetEnumerator();
         }
         #endregion
 
@@ -121,9 +105,9 @@ namespace YiJingFramework.Core
             if (other is null)
                 return 1;
 
-            var thisLength = this.checkedLines.Length;
+            var thisLength = this.lines.Length;
             {
-                var otherLength = other.checkedLines.Length;
+                var otherLength = other.lines.Length;
                 if (thisLength > otherLength)
                     return 1;
                 else if (thisLength < otherLength)
@@ -132,12 +116,12 @@ namespace YiJingFramework.Core
 
             for (int i = thisLength - 1; i >= 0; i--)
             {
-                var cur = this.checkedLines[i];
-                var com = other.checkedLines[i];
-                if (cur < com)
-                    return -1;
-                if (cur > com)
-                    return 1;
+                var cur = this.lines[i];
+                var com = other.lines[i];
+
+                var cr = cur.CompareTo(com);
+                if (cr != 0)
+                    return cr;
             }
 
             return 0;
@@ -152,7 +136,7 @@ namespace YiJingFramework.Core
             unchecked
             {
                 int result = 1;
-                foreach (var line in this.checkedLines)
+                foreach (var line in this.lines)
                 {
                     result <<= 1;
                     result += (int)line;
@@ -169,7 +153,7 @@ namespace YiJingFramework.Core
         public override bool Equals(object? other)
         {
             if (other is Painting painting)
-                return this.checkedLines.SequenceEqual(painting.checkedLines);
+                return this.lines.SequenceEqual(painting.lines);
             return false;
         }
 
@@ -182,7 +166,7 @@ namespace YiJingFramework.Core
         {
             if (other is null)
                 return false;
-            return this.checkedLines.SequenceEqual(other.checkedLines);
+            return this.lines.SequenceEqual(other.lines);
         }
 
         /// <summary>
@@ -197,7 +181,7 @@ namespace YiJingFramework.Core
                 return right is null;
             if (right is null)
                 return false;
-            return left.checkedLines.SequenceEqual(right.checkedLines);
+            return left.lines.SequenceEqual(right.lines);
         }
 
         /// <summary>
@@ -212,7 +196,7 @@ namespace YiJingFramework.Core
                 return right is not null;
             if (right is null)
                 return true;
-            return !left.checkedLines.SequenceEqual(right.checkedLines);
+            return !left.lines.SequenceEqual(right.lines);
         }
         #endregion
 
@@ -230,8 +214,8 @@ namespace YiJingFramework.Core
         /// </returns>
         public override string ToString()
         {
-            StringBuilder stringBuilder = new(this.checkedLines.Length);
-            foreach(var line in checkedLines)
+            StringBuilder stringBuilder = new(this.lines.Length);
+            foreach(var line in lines)
                 _ = stringBuilder.Append((int)line);
             return stringBuilder.ToString();
         }
@@ -261,16 +245,16 @@ namespace YiJingFramework.Core
                 result = null;
                 return false;
             }
-            List<LineAttribute> r = new(s.Length);
+            List<YinYang> r = new(s.Length);
             foreach(var c in s)
             {
                 switch (c)
                 {
                     case '0':
-                        r.Add(LineAttribute.Yin);
+                        r.Add(YinYang.Yin);
                         break;
                     case '1':
-                        r.Add(LineAttribute.Yang);
+                        r.Add(YinYang.Yang);
                         break;
                     default:
                         result = null;
@@ -293,10 +277,10 @@ namespace YiJingFramework.Core
         /// </returns>
         public byte[] ToBytes()
         {
-            var thisLength = this.checkedLines.Length;
+            var thisLength = this.lines.Length;
             BitArray bitArray = new(thisLength + 1);
             for (int i = 0; i < thisLength; i++)
-                bitArray.Set(i, Convert.ToBoolean((int)this.checkedLines[i]));
+                bitArray.Set(i, (bool)this.lines[i]);
             bitArray.Set(thisLength, true);
             byte[] bytes = new byte[(bitArray.Length + 7) / 8];
             bitArray.CopyTo(bytes, 0);
@@ -324,7 +308,7 @@ namespace YiJingFramework.Core
             if (bytes is null)
                 throw new ArgumentNullException(nameof(bytes));
             BitArray bitArray = new(bytes);
-            List<LineAttribute> r = new(bitArray.Length);
+            List<YinYang> r = new(bitArray.Length);
             int zeroCount = 0;
             for (int i = 0; i < bitArray.Length; i++)
             {
@@ -332,8 +316,8 @@ namespace YiJingFramework.Core
                 if (bit)
                 {
                     for (int j = 0; j < zeroCount; j++)
-                        r.Add(LineAttribute.Yin);
-                    r.Add(LineAttribute.Yang);
+                        r.Add(YinYang.Yin);
+                    r.Add(YinYang.Yang);
                     zeroCount = 0;
                 }
                 else
