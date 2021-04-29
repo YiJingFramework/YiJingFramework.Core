@@ -246,15 +246,17 @@ namespace YiJingFramework.Core
                 return false;
             }
             List<YinYang> r = new(s.Length);
-            foreach(var c in s)
+            YinYang yin = YinYang.Yin;
+            YinYang yang = YinYang.Yang;
+            foreach (var c in s)
             {
                 switch (c)
                 {
                     case '0':
-                        r.Add(YinYang.Yin);
+                        r.Add(yin);
                         break;
                     case '1':
-                        r.Add(YinYang.Yang);
+                        r.Add(yang);
                         break;
                     default:
                         result = null;
@@ -310,14 +312,16 @@ namespace YiJingFramework.Core
             BitArray bitArray = new(bytes);
             List<YinYang> r = new(bitArray.Length);
             int zeroCount = 0;
+            YinYang yin = YinYang.Yin;
+            YinYang yang = YinYang.Yang;
             for (int i = 0; i < bitArray.Length; i++)
             {
                 var bit = bitArray[i];
                 if (bit)
                 {
                     for (int j = 0; j < zeroCount; j++)
-                        r.Add(YinYang.Yin);
-                    r.Add(YinYang.Yang);
+                        r.Add(yin);
+                    r.Add(yang);
                     zeroCount = 0;
                 }
                 else
