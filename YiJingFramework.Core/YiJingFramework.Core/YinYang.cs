@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +18,13 @@ namespace YiJingFramework.Core
         /// 创建新实例。
         /// Initializes a new instance.
         /// </summary>
-        /// <param name="IsYang">
+        /// <param name="isYang">
         /// 若值为 <c>true</c> ，则此实例将表示阳；否则表示阴。
         /// If the value is <c>true</c>, the instance will represents yang; otherwise, yin,
         /// </param>
-        public YinYang(bool IsYang)
+        public YinYang(bool isYang)
         {
-            this.IsYang = IsYang;
+            this.IsYang = isYang;
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace YiJingFramework.Core
         /// 阴。
         /// Yin.
         /// </summary>
-        public static YinYang Yin => new YinYang(false);
+        public static YinYang Yin => default; // => new YinYang(false);
         #endregion
 
         #region calculating
@@ -98,6 +99,40 @@ namespace YiJingFramework.Core
         public override string ToString()
         {
             return IsYang ? "Yang" : "Yin";
+        }
+
+        /// <summary>
+        /// 从字符串转换。
+        /// Convert from a string.
+        /// </summary>
+        /// <param name="s">
+        /// 字符串。
+        /// The string.
+        /// </param>
+        /// <param name="result">
+        /// 结果。
+        /// The result.
+        /// </param>
+        /// <returns>
+        /// 一个指示转换成功与否的值。
+        /// A value indicates whether it has been successfully converted or not.
+        /// </returns>
+        public static bool TryParse(
+            [NotNullWhen(true)] string? s,
+            [MaybeNullWhen(false)] out YinYang result)
+        {
+            switch(s?.Trim()?.ToLower())
+            {
+                case "yang":
+                    result = Yang;
+                    return true;
+                case "yin":
+                    result = Yin;
+                    return true;
+                default:
+                    result = default;
+                    return false;
+            }
         }
 
         /// <summary>

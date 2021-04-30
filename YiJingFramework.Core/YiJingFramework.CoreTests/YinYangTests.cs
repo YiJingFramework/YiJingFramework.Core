@@ -46,6 +46,18 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual("Yin", new YinYang(false).ToString());
             Assert.AreEqual("Yang", new YinYang(true).ToString());
 
+            Assert.IsTrue(YinYang.TryParse("Yin", out YinYang r));
+            Assert.AreEqual(YinYang.Yin, r);
+            Assert.IsTrue(YinYang.TryParse("\r\nYIN ", out r));
+            Assert.AreEqual(YinYang.Yin, r);
+            Assert.IsTrue(YinYang.TryParse("yANg", out r));
+            Assert.AreEqual(YinYang.Yang, r);
+            Assert.IsTrue(YinYang.TryParse("\r\nYANG ", out r));
+            Assert.AreEqual(YinYang.Yang, r);
+            Assert.IsFalse(YinYang.TryParse("yinyang", out _));
+            Assert.IsFalse(YinYang.TryParse("false", out _));
+            Assert.IsFalse(YinYang.TryParse(null, out _));
+
             Assert.AreEqual(false, (bool)YinYang.Yin);
             Assert.AreEqual(true, (bool)YinYang.Yang);
             Assert.AreEqual(false, (bool)new YinYang(false));
