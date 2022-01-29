@@ -4,13 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageId>YiJingFramework.Core</PackageId>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>yueyinqiu5990</Authors>
     <Company>YiJingFramework</Company>
-    <Description>YiJingFramework is a C# library (group) about Yi Jing.</Description>
+    <Description>This package provides a primary class to represent a painting of Yi, which can bridge other related packages.</Description>
     <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/YiJingFramework/YiJingFramework.Core/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/YiJingFramework/YiJingFramework.Core.git</RepositoryUrl>
