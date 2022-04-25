@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YiJingFramework.Core
 {
@@ -98,7 +94,7 @@ namespace YiJingFramework.Core
         /// <returns></returns>
         public override string ToString()
         {
-            return IsYang ? "Yang" : "Yin";
+            return this.IsYang ? "Yang" : "Yin";
         }
 
         /// <summary>
@@ -121,7 +117,7 @@ namespace YiJingFramework.Core
             [NotNullWhen(true)] string? s,
             [MaybeNullWhen(false)] out YinYang result)
         {
-            switch(s?.Trim()?.ToLower())
+            switch (s?.Trim()?.ToLower())
             {
                 case "yang":
                     result = Yang;

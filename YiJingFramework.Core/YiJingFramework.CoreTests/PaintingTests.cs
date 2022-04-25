@@ -1,11 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YiJingFramework.Core;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
 
 namespace YiJingFramework.Core.Tests
 {
@@ -105,11 +102,11 @@ namespace YiJingFramework.Core.Tests
         {
             Assert.IsFalse(new Painting().Equals(null));
             Random random = new Random();
-            for(int i = 0; i < 20 ; )
+            for (int i = 0; i < 20;)
             {
                 var c = random.Next(5, 10);
                 List<YinYang> lines1 = new();
-                for (int j = 0;j < c;j++)
+                for (int j = 0; j < c; j++)
                 {
                     lines1.Add((YinYang)random.Next(0, 2));
                 }
@@ -193,9 +190,9 @@ namespace YiJingFramework.Core.Tests
         public void ToBytesTest()
         {
             var p0 = GetEmptyPainting();
-            BitArray bitArray0 = new BitArray(new bool[] {true });
+            BitArray bitArray0 = new BitArray(new bool[] { true });
             byte[] bytes0 = new byte[(bitArray0.Length + 7) / 8];
-            bitArray0.CopyTo(bytes0,0);
+            bitArray0.CopyTo(bytes0, 0);
             Assert.IsTrue(p0.ToBytes().SequenceEqual(bytes0));
             var p1 = GetPainting1();
             BitArray bitArray1 = new BitArray(new bool[] { true, true, false, true });

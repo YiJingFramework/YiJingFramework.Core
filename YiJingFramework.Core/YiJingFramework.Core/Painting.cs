@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace YiJingFramework.Core
 {
@@ -215,7 +214,7 @@ namespace YiJingFramework.Core
         public override string ToString()
         {
             StringBuilder stringBuilder = new(this.lines.Length);
-            foreach(var line in lines)
+            foreach (var line in lines)
                 _ = stringBuilder.Append((int)line);
             return stringBuilder.ToString();
         }
