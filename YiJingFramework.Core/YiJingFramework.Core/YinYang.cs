@@ -7,7 +7,7 @@ namespace YiJingFramework.Core
     /// 阴阳属性。
     /// The yin-yang attribute.
     /// </summary>
-    public struct YinYang : IComparable<YinYang>, IEquatable<YinYang>
+    public struct YinYang : IComparable<YinYang>, IEquatable<YinYang>, IFormattable
     {
         #region creating
         /// <summary>
@@ -98,6 +98,74 @@ namespace YiJingFramework.Core
         }
 
         /// <summary>
+        /// 按照指定格式转换为字符串。
+        /// Convert to a string with the given format.
+        /// </summary>
+        /// <param name="format">
+        /// 要使用的格式。
+        /// <c>"G"</c> 表示英文； <c>"C"</c> 表示中文。
+        /// The format to be used.
+        /// <c>"G"</c> represents English; and <c>"C"</c> represents Chinese.
+        /// </param>
+        /// <param name="formatProvider">
+        /// 不会使用此参数。
+        /// This parameter won't be used.
+        /// </param>
+        /// <returns>
+        /// 结果。
+        /// The result.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// 给出的格式化字符串不受支持。
+        /// The given format is not supported.
+        /// </exception>
+        public string ToString(string? format, IFormatProvider? formatProvider = null)
+        {
+            if (string.IsNullOrEmpty(format))
+                format = "G";
+            return format.ToUpperInvariant() switch
+            {
+                "G" => this.ToString(),
+                "C" => this.IsYang ? "阳" : "阴",
+                _ => throw new FormatException($"The format string \"{format}\" is not supported.")
+            };
+        }
+
+        /// <summary>
+        /// 从字符串转换。
+        /// Convert from a string.
+        /// </summary>
+        /// <param name="s">
+        /// 字符串。
+        /// The string.
+        /// </param>
+        /// <returns>
+        /// 结果。
+        /// The result.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="s"/> 是 <c>null</c> 。
+        /// <paramref name="s"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// 传入字符串的格式不受支持。
+        /// The input string was not in the supported format.
+        /// </exception>
+        public static YinYang Parse(string s)
+        {
+            if (s is null)
+                throw new ArgumentNullException(nameof(s));
+
+            return s.Trim().ToLowerInvariant() switch
+            {
+                "阳" or "yang" => Yang,
+                "阴" or "yin" => Yin,
+                _ => throw new FormatException(
+                    $"Cannot parse \"{s}\" as {nameof(YinYang)}."),
+            };
+        }
+
+        /// <summary>
         /// 从字符串转换。
         /// Convert from a string.
         /// </summary>
@@ -117,11 +185,13 @@ namespace YiJingFramework.Core
             [NotNullWhen(true)] string? s,
             [MaybeNullWhen(false)] out YinYang result)
         {
-            switch (s?.Trim()?.ToLower())
+            switch (s?.Trim()?.ToLowerInvariant())
             {
+                case "阳":
                 case "yang":
                     result = Yang;
                     return true;
+                case "阴":
                 case "yin":
                     result = Yin;
                     return true;
@@ -207,6 +277,7 @@ namespace YiJingFramework.Core
         {
             return IsYang.GetHashCode();
         }
+
         /// <summary>
         /// 
         /// </summary>
