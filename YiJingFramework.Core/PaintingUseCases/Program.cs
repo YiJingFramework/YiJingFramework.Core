@@ -69,7 +69,7 @@ namespace PaintingUseCases
             // For this part,
             // you don't even have to understand what's the result actually is.
             // All you need to know is that it can be converted to the bytes without any loss,
-            // so you can choose to (de)serialize it with these methods.
+            // so you can choose to (de)serialize your paintings with these methods.
 
             byte[] bytes = dui.ToBytes();
             //
