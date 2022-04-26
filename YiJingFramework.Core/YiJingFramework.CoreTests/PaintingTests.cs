@@ -170,6 +170,21 @@ namespace YiJingFramework.Core.Tests
         }
 
         [TestMethod()]
+        public void ParseTest()
+        {
+            Random random = new Random();
+            for (int i = 0; i < 20; i++)
+            {
+                var c = random.Next(0, 100);
+                List<YinYang> lines1 = new();
+                for (int j = 0; j < c; j++)
+                    lines1.Add((YinYang)random.Next(0, 2));
+                var painting = new Painting(lines1);
+                Assert.IsTrue(Painting.Parse(painting.ToString()).SequenceEqual(painting));
+            }
+        }
+
+        [TestMethod()]
         public void TryParseTest()
         {
             Assert.IsFalse(Painting.TryParse("1112", out var r));

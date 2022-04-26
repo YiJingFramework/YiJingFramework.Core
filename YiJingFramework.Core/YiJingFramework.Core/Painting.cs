@@ -227,6 +227,47 @@ namespace YiJingFramework.Core
         /// 可以表示此卦画的字符串。
         /// The string that represents the painting.
         /// </param>
+        /// <returns>
+        /// 卦画。
+        /// The painting.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="s"/> 是 <c>null</c> 。
+        /// <paramref name="s"/> is <c>null</c>.
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// 传入字符串的格式不受支持。
+        /// The input string was not in the supported format.
+        /// </exception>
+        public static Painting Parse(string s)
+        {
+            if (s is null)
+                throw new ArgumentNullException(nameof(s));
+
+            YinYang yin = YinYang.Yin;
+            YinYang yang = YinYang.Yang;
+
+            List<YinYang> r = new(s.Length);
+            foreach (var c in s)
+            {
+                r.Add(c switch
+                {
+                    '0' => yin,
+                    '1' => yang,
+                    _ => throw new FormatException($"Cannot parse \"{s}\" as {nameof(Painting)}.")
+                });
+            }
+            return new(r);
+        }
+
+        /// <summary>
+        /// 从字符串转回。
+        /// Convert from a string.
+        /// </summary>
+        /// <param name="s">
+        /// 可以表示此卦画的字符串。
+        /// The string that represents the painting.
+        /// </param>
         /// <param name="result">
         /// 卦画。
         /// The painting.
@@ -244,9 +285,11 @@ namespace YiJingFramework.Core
                 result = null;
                 return false;
             }
-            List<YinYang> r = new(s.Length);
+
             YinYang yin = YinYang.Yin;
             YinYang yang = YinYang.Yang;
+
+            List<YinYang> r = new(s.Length);
             foreach (var c in s)
             {
                 switch (c)
@@ -308,25 +351,20 @@ namespace YiJingFramework.Core
         {
             if (bytes is null)
                 throw new ArgumentNullException(nameof(bytes));
+
             BitArray bitArray = new(bytes);
-            List<YinYang> r = new(bitArray.Length);
-            int zeroCount = 0;
-            YinYang yin = YinYang.Yin;
-            YinYang yang = YinYang.Yang;
-            for (int i = 0; i < bitArray.Length; i++)
+            int position = bitArray.Length - 1;
+
+            for (; position >= 0; position--)
             {
-                var bit = bitArray[i];
-                if (bit)
-                {
-                    for (int j = 0; j < zeroCount; j++)
-                        r.Add(yin);
-                    r.Add(yang);
-                    zeroCount = 0;
-                }
-                else
-                    zeroCount++;
+                if (bitArray[position])
+                    break;
             }
-            r.RemoveAt(r.Count - 1);
+
+            YinYang[] r = new YinYang[position];
+            for (position--; position >= 0; position--)
+                r[position] = new YinYang(bitArray[position]);
+
             return new Painting(r);
         }
         #endregion
