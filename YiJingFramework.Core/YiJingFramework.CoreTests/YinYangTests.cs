@@ -39,14 +39,29 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual("Yang", YinYang.Yang.ToString());
             Assert.AreEqual("Yin", new YinYang(false).ToString());
             Assert.AreEqual("Yang", new YinYang(true).ToString());
+            Assert.AreEqual("阴", YinYang.Yin.ToString("C"));
+            Assert.AreEqual("阳", YinYang.Yang.ToString("C"));
+            Assert.AreEqual("Yin", YinYang.Yin.ToString("G"));
+            Assert.AreEqual("Yang", YinYang.Yang.ToString(null));
+
+            Assert.AreEqual(YinYang.Yin, YinYang.Parse("Yin"));
+            Assert.AreEqual(YinYang.Yin, YinYang.Parse("\r\nYIN "));
+            Assert.AreEqual(YinYang.Yin, YinYang.Parse("阴"));
+            Assert.AreEqual(YinYang.Yang, YinYang.Parse("yANg"));
+            Assert.AreEqual(YinYang.Yang, YinYang.Parse("\r\nYANG "));
+            Assert.AreEqual(YinYang.Yang, YinYang.Parse("\r\n阳 "));
 
             Assert.IsTrue(YinYang.TryParse("Yin", out YinYang r));
             Assert.AreEqual(YinYang.Yin, r);
             Assert.IsTrue(YinYang.TryParse("\r\nYIN ", out r));
             Assert.AreEqual(YinYang.Yin, r);
+            Assert.IsTrue(YinYang.TryParse("阴", out r));
+            Assert.AreEqual(YinYang.Yin, r);
             Assert.IsTrue(YinYang.TryParse("yANg", out r));
             Assert.AreEqual(YinYang.Yang, r);
             Assert.IsTrue(YinYang.TryParse("\r\nYANG ", out r));
+            Assert.AreEqual(YinYang.Yang, r);
+            Assert.IsTrue(YinYang.TryParse("\r\n阳 ", out r));
             Assert.AreEqual(YinYang.Yang, r);
             Assert.IsFalse(YinYang.TryParse("yinyang", out _));
             Assert.IsFalse(YinYang.TryParse("false", out _));
