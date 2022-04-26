@@ -6,12 +6,11 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <PackageId>YiJingFramework.Core</PackageId>
-    <Version>4.0.1</Version>
+    <Version>4.1.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>yueyinqiu5990</Authors>
     <Company>YiJingFramework</Company>
     <Description>This package provides a primary class to represent a painting of Yi, which can bridge other related packages.</Description>
-    <Copyright>Copyright © 2021 yueyinqiu5990. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/YiJingFramework/YiJingFramework.Core/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/YiJingFramework/YiJingFramework.Core.git</RepositoryUrl>
     <PackageIcon>Taichi.png</PackageIcon>

@@ -286,7 +286,7 @@ namespace YiJingFramework.Core
         /// <returns></returns>
         public static bool operator ==(YinYang left, YinYang right)
         {
-            return left.IsYang.Equals(right.IsYang);
+            return left.IsYang == right.IsYang;
         }
         /// <summary>
         /// 
@@ -296,7 +296,7 @@ namespace YiJingFramework.Core
         /// <returns></returns>
         public static bool operator !=(YinYang left, YinYang right)
         {
-            return !(left.IsYang.Equals(right.IsYang));
+            return left.IsYang != right.IsYang;
         }
         /// <summary>
         /// 
@@ -304,6 +304,7 @@ namespace YiJingFramework.Core
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
+        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
         public static bool operator <(YinYang left, YinYang right)
         {
             return left.IsYang.CompareTo(right.IsYang) < 0;
@@ -314,6 +315,7 @@ namespace YiJingFramework.Core
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
+        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
         public static bool operator <=(YinYang left, YinYang right)
         {
             return left.IsYang.CompareTo(right.IsYang) <= 0;
@@ -324,6 +326,7 @@ namespace YiJingFramework.Core
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
+        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
         public static bool operator >(YinYang left, YinYang right)
         {
             return left.IsYang.CompareTo(right.IsYang) > 0;
@@ -334,6 +337,7 @@ namespace YiJingFramework.Core
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
+        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
         public static bool operator >=(YinYang left, YinYang right)
         {
             return left.IsYang.CompareTo(right.IsYang) >= 0;

@@ -120,6 +120,7 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual(true, YinYang.Yin != YinYang.Yang);
             Assert.AreEqual(false, YinYang.Yin != YinYang.Yin);
 
+#pragma warning disable CS0618 // 类型或成员已过时
             Assert.AreEqual(false, YinYang.Yang < YinYang.Yang);
             Assert.AreEqual(false, YinYang.Yang < YinYang.Yin);
             Assert.AreEqual(true, YinYang.Yin < YinYang.Yang);
@@ -139,6 +140,7 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual(true, YinYang.Yang >= YinYang.Yin);
             Assert.AreEqual(false, YinYang.Yin >= YinYang.Yang);
             Assert.AreEqual(true, YinYang.Yin >= YinYang.Yin);
+#pragma warning restore CS0618 // 类型或成员已过时
         }
     }
 }
