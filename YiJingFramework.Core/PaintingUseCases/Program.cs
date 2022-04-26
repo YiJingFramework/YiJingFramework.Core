@@ -20,9 +20,11 @@ namespace PaintingUseCases
             {
                 Random random = new Random();
                 for (; ; )
-                    yield return (YinYang)random.Next(0, 2);
+                    yield return (YinYang)random.Next(0, 2); // 0, 1 -> yin, yang
             }
-            var random = new Painting(GetRandomLines().Take(5)); // A painting with five lines.
+            var randomP = new Painting(GetRandomLines().Take(5)); // A painting with five lines.
+
+            // to create by strings, see 'convert to string and parse'
             #endregion
 
             #region to use as lists of lines
@@ -36,50 +38,59 @@ namespace PaintingUseCases
             Console.WriteLine();
             // Output: YinYang
 
-            foreach (var line in random)
+            foreach (var line in randomP)
                 Console.Write(line);
             Console.WriteLine();
             Console.WriteLine();
             // The output will be the 5 random lines.
             #endregion
 
-            #region convert to string and try parse
+            #region to convert to string and parse
             Console.WriteLine(dui.ToString()); // yang: 1, yin: 0, yang-yang-yin: 110
             Console.WriteLine();
             // Output: 110
 
-            Console.WriteLine(shaoYang.ToString());
+            Console.WriteLine(shaoYang);
             Console.WriteLine();
             // Output: 01
 
             var r = Painting.TryParse("111011111", out var myPainting);
+            // 111011111 -> yang-yang-yang-yin-yang-yang-yang-yang-yang
             Debug.Assert(r is true);
             Debug.Assert(myPainting is not null);
-            // 111011111 -> yang-yang-yang-yin-yang-yang-yang-yang-yang
             Console.WriteLine(myPainting[3]);
             Console.WriteLine();
             // Output: Yin
+
+            myPainting = Painting.Parse(myPainting.ToString()); // still the same
             #endregion
 
-            #region convert to bytes and back
+            #region to convert to bytes and back
             byte[] bytes = dui.ToBytes();
-            /* 
-             * yang -> 1, yin -> 0
-             * yang,yang,yin -> 0,1,1 (the order is not the same as the string representation)
-             * 
-             * Add a '1' to represent that it has ended: 0,1,1 -> 1,0,1,1
-             * 
-             * Expand to a whole byte: 1,0,1,1 -> 0,0,0,0,  1,0,1,1
-             */
+
+            //
+            // yang -> 1, yin -> 0
+            // yang,yang,yin -> 1,1,0 (the left digits are at the lower bit)
+            // 
+            // Add a '1' to represent that it has ended: 1,1,0 -> 1,1,0,1
+            // 
+            // Expand to a complete byte:
+            // 1,1,0,1 -> 1,1,0,1, 0,0,0,0 (lower to higher) -> 0b0000_1011 (higher to lower)
+            //
             Debug.Assert(bytes.Length == 1);
             Console.WriteLine(Convert.ToString(bytes[0], 2));
             Console.WriteLine();
             // Output: 1011
 
             bytes = myPainting.ToBytes();
-            /*
-             * 0,0,0,0,  0,0,1,1,  1,1,1,1,  0,1,1,1
-             */
+            //
+            //    yang-yang-yang-yin - yang-yang-yang-yang - yang
+            // -> 1,1,1,0, 1,1,1,1, 1
+            // -> 1,1,1,0, 1,1,1,1, 1,1 
+            // -> (1110 1111) (1100 0000)
+            // -> 0b0000_1100 at bytes[1]
+            //    0b1111_0111 at bytes[0]
+            //
             Debug.Assert(bytes.Length == 2);
             Console.Write(Convert.ToString(bytes[0], 2));
             Console.Write(" ");
@@ -93,7 +104,7 @@ namespace PaintingUseCases
             // Output: True
             #endregion
 
-            #region compare two paintings
+            #region to compare two paintings
             Console.WriteLine($"{myPainting2.Equals(myPainting)} " +
                 $"{myPainting2 == myPainting} " +
                 $"{myPainting2.CompareTo(myPainting)} " +

@@ -10,11 +10,12 @@ namespace YinYangUseCases
             #region to get or convert yin-yangs
             YinYang yin = YinYang.Yin;
             YinYang yang = new YinYang(isYang: true);
-            Console.WriteLine($"{yin.ToString()}-{yang}!");
+            Console.WriteLine($"{yin.ToString()}-{yang}-{yin.ToString("C")}-{yang:C}!");
             Console.WriteLine();
-            // Output: Yin-Yang!
+            // Output: Yin-Yang-阴-阳!
 
-            _ = YinYang.TryParse(" yang \t\n", out yang);
+            yang = YinYang.Parse("                 阳     ");
+            _ = YinYang.TryParse(" yANG \t\n", out yang);
             // case-insensitive and allows white spaces preceding and trailing.
 
             yin = (YinYang)false;
