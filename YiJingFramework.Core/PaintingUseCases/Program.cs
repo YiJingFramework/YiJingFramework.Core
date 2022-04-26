@@ -66,8 +66,12 @@ namespace PaintingUseCases
             #endregion
 
             #region to convert to bytes and back
-            byte[] bytes = dui.ToBytes();
+            // For this part,
+            // you don't even have to understand what's the result actually is.
+            // All you need to know is that it can be converted to the bytes without any loss,
+            // so you can choose to (de)serialize it with these methods.
 
+            byte[] bytes = dui.ToBytes();
             //
             // yang -> 1, yin -> 0
             // yang,yang,yin -> 1,1,0 (the left digits are at the lower bit)
