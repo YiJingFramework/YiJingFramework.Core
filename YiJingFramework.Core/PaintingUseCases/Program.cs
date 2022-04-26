@@ -6,9 +6,9 @@ using YiJingFramework.Core;
 
 namespace PaintingUseCases
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             #region to create paintings
             var dui = new Painting(YinYang.Yang, YinYang.Yang, YinYang.Yin); // 兑

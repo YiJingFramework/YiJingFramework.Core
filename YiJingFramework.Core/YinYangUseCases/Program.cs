@@ -3,9 +3,9 @@ using YiJingFramework.Core;
 
 namespace YinYangUseCases
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             #region to get or convert yin-yangs
             YinYang yin = YinYang.Yin;

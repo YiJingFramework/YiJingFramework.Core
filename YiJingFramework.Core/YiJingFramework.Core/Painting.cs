@@ -68,14 +68,14 @@ namespace YiJingFramework.Core
         /// <paramref name="index"/> is out of range.
         /// </exception>
         public YinYang this[int index]
-            => this.lines[index];
+            => lines[index];
 
         /// <summary>
         /// 获取爻的个数。
         /// Get the count of the lines.
         /// </summary>
         public int Count
-            => this.lines.Length;
+            => lines.Length;
 
         /// <summary>
         /// 
@@ -83,12 +83,12 @@ namespace YiJingFramework.Core
         /// <returns></returns>
         public IEnumerator<YinYang> GetEnumerator()
         {
-            return ((IEnumerable<YinYang>)this.lines).GetEnumerator();
+            return ((IEnumerable<YinYang>)lines).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.lines.GetEnumerator();
+            return lines.GetEnumerator();
         }
         #endregion
 
@@ -104,7 +104,7 @@ namespace YiJingFramework.Core
             if (other is null)
                 return 1;
 
-            var thisLength = this.lines.Length;
+            var thisLength = lines.Length;
             {
                 var otherLength = other.lines.Length;
                 if (thisLength > otherLength)
@@ -115,7 +115,7 @@ namespace YiJingFramework.Core
 
             for (int i = thisLength - 1; i >= 0; i--)
             {
-                var cur = this.lines[i];
+                var cur = lines[i];
                 var com = other.lines[i];
 
                 var cr = cur.CompareTo(com);
@@ -135,7 +135,7 @@ namespace YiJingFramework.Core
             unchecked
             {
                 int result = 1;
-                foreach (var line in this.lines)
+                foreach (var line in lines)
                 {
                     result <<= 1;
                     result += (int)line;
@@ -152,7 +152,7 @@ namespace YiJingFramework.Core
         public override bool Equals(object? other)
         {
             if (other is Painting painting)
-                return this.lines.SequenceEqual(painting.lines);
+                return lines.SequenceEqual(painting.lines);
             return false;
         }
 
@@ -165,7 +165,7 @@ namespace YiJingFramework.Core
         {
             if (other is null)
                 return false;
-            return this.lines.SequenceEqual(other.lines);
+            return lines.SequenceEqual(other.lines);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace YiJingFramework.Core
         /// </returns>
         public override string ToString()
         {
-            StringBuilder stringBuilder = new(this.lines.Length);
+            StringBuilder stringBuilder = new(lines.Length);
             foreach (var line in lines)
                 _ = stringBuilder.Append((int)line);
             return stringBuilder.ToString();
@@ -278,10 +278,10 @@ namespace YiJingFramework.Core
         /// </returns>
         public byte[] ToBytes()
         {
-            var thisLength = this.lines.Length;
+            var thisLength = lines.Length;
             BitArray bitArray = new(thisLength + 1);
             for (int i = 0; i < thisLength; i++)
-                bitArray.Set(i, (bool)this.lines[i]);
+                bitArray.Set(i, (bool)lines[i]);
             bitArray.Set(thisLength, true);
             byte[] bytes = new byte[(bitArray.Length + 7) / 8];
             bitArray.CopyTo(bytes, 0);

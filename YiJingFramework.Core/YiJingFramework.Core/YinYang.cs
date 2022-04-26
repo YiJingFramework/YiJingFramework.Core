@@ -20,7 +20,7 @@ namespace YiJingFramework.Core
         /// </param>
         public YinYang(bool isYang)
         {
-            this.IsYang = isYang;
+            IsYang = isYang;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace YiJingFramework.Core
         /// <returns></returns>
         public override string ToString()
         {
-            return this.IsYang ? "Yang" : "Yin";
+            return IsYang ? "Yang" : "Yin";
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace YiJingFramework.Core
                 format = "G";
             return format.ToUpperInvariant() switch
             {
-                "G" => this.ToString(),
-                "C" => this.IsYang ? "阳" : "阴",
+                "G" => ToString(),
+                "C" => IsYang ? "阳" : "阴",
                 _ => throw new FormatException($"The format string \"{format}\" is not supported.")
             };
         }

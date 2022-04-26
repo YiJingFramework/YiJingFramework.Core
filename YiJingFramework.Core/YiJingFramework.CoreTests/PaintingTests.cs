@@ -24,7 +24,8 @@ namespace YiJingFramework.Core.Tests
             Assert.IsTrue(p1.SequenceEqual(pp1));
             return pp1;
         }
-        IEnumerable<YinYang> GetLinesOfPainting2()
+
+        private IEnumerable<YinYang> GetLinesOfPainting2()
         {
             yield return YinYang.Yang;
             yield return YinYang.Yang;
