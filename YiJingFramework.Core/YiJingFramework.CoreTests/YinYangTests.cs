@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Numerics;
+using System;
 
 namespace YiJingFramework.Core.Tests
 {
@@ -25,6 +27,13 @@ namespace YiJingFramework.Core.Tests
 
             Assert.AreEqual(YinYang.Yin, !YinYang.Yang);
             Assert.AreEqual(YinYang.Yang, !YinYang.Yin);
+
+            T Tide<T>(T t1) where T : IBitwiseOperators<T, T, T>
+            {
+                return ~t1;
+            }
+            Assert.AreEqual(YinYang.Yin, Tide(YinYang.Yang));
+            Assert.AreEqual(YinYang.Yang, Tide(YinYang.Yin));
         }
 
         [TestMethod()]
@@ -66,6 +75,17 @@ namespace YiJingFramework.Core.Tests
             Assert.IsFalse(YinYang.TryParse("yinyang", out _));
             Assert.IsFalse(YinYang.TryParse("false", out _));
             Assert.IsFalse(YinYang.TryParse(null, out _));
+
+            T Parse<T>(string s) where T : IParsable<T>
+            {
+                return T.Parse(s, null);
+            }
+            bool TryParse<T>(string s, out T result) where T : IParsable<T>
+            {
+                return T.TryParse(s, null, out result);
+            }
+            Assert.AreEqual(YinYang.Yang, Parse<YinYang>("yang"));
+            Assert.AreEqual(true, TryParse<YinYang>("yang", out _));
 
             Assert.AreEqual(false, (bool)YinYang.Yin);
             Assert.AreEqual(true, (bool)YinYang.Yang);
@@ -120,6 +140,7 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual(true, YinYang.Yin != YinYang.Yang);
             Assert.AreEqual(false, YinYang.Yin != YinYang.Yin);
 
+            /*
 #pragma warning disable CS0618 // 类型或成员已过时
             Assert.AreEqual(false, YinYang.Yang < YinYang.Yang);
             Assert.AreEqual(false, YinYang.Yang < YinYang.Yin);
@@ -141,6 +162,7 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual(false, YinYang.Yin >= YinYang.Yang);
             Assert.AreEqual(true, YinYang.Yin >= YinYang.Yin);
 #pragma warning restore CS0618 // 类型或成员已过时
+            */
         }
     }
 }

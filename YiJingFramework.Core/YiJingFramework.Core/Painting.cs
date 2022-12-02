@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace YiJingFramework.Core
@@ -13,7 +14,9 @@ namespace YiJingFramework.Core
     /// A painting made up by the yin and yang lines.
     /// The lower a line, the smaller its index.
     /// </summary>
-    public class Painting : IReadOnlyList<YinYang>, IComparable<Painting>, IEquatable<Painting>
+    public sealed class Painting :
+        IReadOnlyList<YinYang>, IComparable<Painting>, IEquatable<Painting>,
+        IParsable<Painting>, IEqualityOperators<Painting, Painting, bool>
     {
         private readonly YinYang[] lines;
         /// <summary>
@@ -45,8 +48,7 @@ namespace YiJingFramework.Core
         /// </exception>
         public Painting(IEnumerable<YinYang> lines)
         {
-            if (lines is null)
-                throw new ArgumentNullException(nameof(lines));
+            ArgumentNullException.ThrowIfNull(lines);
             this.lines = lines.ToArray();
         }
 
@@ -241,8 +243,7 @@ namespace YiJingFramework.Core
         /// </exception>
         public static Painting Parse(string s)
         {
-            if (s is null)
-                throw new ArgumentNullException(nameof(s));
+            ArgumentNullException.ThrowIfNull(s);
 
             YinYang yin = YinYang.Yin;
             YinYang yang = YinYang.Yang;
@@ -250,8 +251,7 @@ namespace YiJingFramework.Core
             List<YinYang> r = new(s.Length);
             foreach (var c in s)
             {
-                r.Add(c switch
-                {
+                r.Add(c switch {
                     '0' => yin,
                     '1' => yang,
                     _ => throw new FormatException($"Cannot parse \"{s}\" as {nameof(Painting)}.")
@@ -309,6 +309,20 @@ namespace YiJingFramework.Core
             return true;
         }
 
+        static Painting IParsable<Painting>.Parse(
+            string s, IFormatProvider? provider)
+        {
+            return Parse(s);
+        }
+
+        static bool IParsable<Painting>.TryParse(
+            [NotNullWhen(true)] string? s,
+            IFormatProvider? provider,
+            [MaybeNullWhen(false)] out Painting result)
+        {
+            return TryParse(s, out result);
+        }
+
         /// <summary>
         /// 返回一个可以完全表示此卦画的字节数组。
         /// 可以使用 <seealso cref="FromBytes(byte[])"/> 转换回。
@@ -349,8 +363,7 @@ namespace YiJingFramework.Core
         /// </exception>
         public static Painting FromBytes(params byte[] bytes)
         {
-            if (bytes is null)
-                throw new ArgumentNullException(nameof(bytes));
+            ArgumentNullException.ThrowIfNull(bytes);
 
             BitArray bitArray = new(bytes);
             int position = bitArray.Length - 1;

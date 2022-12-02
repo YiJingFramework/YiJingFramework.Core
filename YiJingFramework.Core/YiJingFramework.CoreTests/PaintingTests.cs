@@ -172,6 +172,11 @@ namespace YiJingFramework.Core.Tests
         [TestMethod()]
         public void ParseTest()
         {
+            T Parse<T>(string s) where T : IParsable<T>
+            {
+                return T.Parse(s, null);
+            }
+
             Random random = new Random();
             for (int i = 0; i < 20; i++)
             {
@@ -181,12 +186,19 @@ namespace YiJingFramework.Core.Tests
                     lines1.Add((YinYang)random.Next(0, 2));
                 var painting = new Painting(lines1);
                 Assert.IsTrue(Painting.Parse(painting.ToString()).SequenceEqual(painting));
+
+                Assert.IsTrue(Parse<Painting>(painting.ToString()).SequenceEqual(painting));
             }
         }
 
         [TestMethod()]
         public void TryParseTest()
         {
+            bool TryParse<T>(string s, out T result) where T : IParsable<T>
+            {
+                return T.TryParse(s, null, out result);
+            }
+
             Assert.IsFalse(Painting.TryParse("1112", out var r));
             Assert.IsNull(r);
             Random random = new Random();
@@ -199,6 +211,8 @@ namespace YiJingFramework.Core.Tests
                 var painting = new Painting(lines1);
                 Assert.IsTrue(Painting.TryParse(painting.ToString(), out var rr));
                 Assert.IsTrue(rr.SequenceEqual(painting));
+
+                Assert.IsTrue(TryParse<Painting>(painting.ToString(), out _));
             }
         }
 

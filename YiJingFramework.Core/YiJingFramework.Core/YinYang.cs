@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace YiJingFramework.Core
 {
@@ -7,7 +8,10 @@ namespace YiJingFramework.Core
     /// 阴阳属性。
     /// The yin-yang attribute.
     /// </summary>
-    public struct YinYang : IComparable<YinYang>, IEquatable<YinYang>, IFormattable
+    public readonly struct YinYang :
+        IComparable<YinYang>, IEquatable<YinYang>, IFormattable,
+        IParsable<YinYang>, IEqualityOperators<YinYang, YinYang, bool>,
+        IBitwiseOperators<YinYang, YinYang, YinYang>
     {
         #region creating
         /// <summary>
@@ -79,6 +83,17 @@ namespace YiJingFramework.Core
         {
             return new YinYang(!yinYang.IsYang);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="yinYang"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        static YinYang IBitwiseOperators<YinYang, YinYang, YinYang>.operator ~(YinYang yinYang)
+        {
+            return !yinYang;
+        }
         #endregion
 
         #region converting
@@ -123,8 +138,7 @@ namespace YiJingFramework.Core
         {
             if (string.IsNullOrEmpty(format))
                 format = "G";
-            return format.ToUpperInvariant() switch
-            {
+            return format.ToUpperInvariant() switch {
                 "G" => ToString(),
                 "C" => IsYang ? "阳" : "阴",
                 _ => throw new FormatException($"The format string \"{format}\" is not supported.")
@@ -153,11 +167,9 @@ namespace YiJingFramework.Core
         /// </exception>
         public static YinYang Parse(string s)
         {
-            if (s is null)
-                throw new ArgumentNullException(nameof(s));
+            ArgumentNullException.ThrowIfNull(s);
 
-            return s.Trim().ToLowerInvariant() switch
-            {
+            return s.Trim().ToLowerInvariant() switch {
                 "阳" or "yang" => Yang,
                 "阴" or "yin" => Yin,
                 _ => throw new FormatException(
@@ -199,6 +211,19 @@ namespace YiJingFramework.Core
                     result = default;
                     return false;
             }
+        }
+
+        static YinYang IParsable<YinYang>.Parse(string s, IFormatProvider? provider)
+        {
+            return Parse(s);
+        }
+
+        static bool IParsable<YinYang>.TryParse(
+            [NotNullWhen(true)] string? s,
+            IFormatProvider? provider,
+            [MaybeNullWhen(false)] out YinYang result)
+        {
+            return TryParse(s, out result);
         }
 
         /// <summary>
@@ -297,50 +322,6 @@ namespace YiJingFramework.Core
         public static bool operator !=(YinYang left, YinYang right)
         {
             return left.IsYang != right.IsYang;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
-        public static bool operator <(YinYang left, YinYang right)
-        {
-            return left.IsYang.CompareTo(right.IsYang) < 0;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
-        public static bool operator <=(YinYang left, YinYang right)
-        {
-            return left.IsYang.CompareTo(right.IsYang) <= 0;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
-        public static bool operator >(YinYang left, YinYang right)
-        {
-            return left.IsYang.CompareTo(right.IsYang) > 0;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        [Obsolete("The comparison has no meaning and might be removed in later versions.")]
-        public static bool operator >=(YinYang left, YinYang right)
-        {
-            return left.IsYang.CompareTo(right.IsYang) >= 0;
         }
         #endregion
     }
