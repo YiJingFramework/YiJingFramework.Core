@@ -30,4 +30,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="YiJingFramework.Serialization" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

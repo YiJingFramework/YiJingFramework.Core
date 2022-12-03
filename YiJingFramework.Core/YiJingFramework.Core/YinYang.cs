@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Text.Json.Serialization;
+using YiJingFramework.Serialization;
 
 namespace YiJingFramework.Core
 {
@@ -8,10 +10,12 @@ namespace YiJingFramework.Core
     /// 阴阳属性。
     /// The yin-yang attribute.
     /// </summary>
+    [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<YinYang>))]
     public readonly struct YinYang :
         IComparable<YinYang>, IEquatable<YinYang>, IFormattable,
         IParsable<YinYang>, IEqualityOperators<YinYang, YinYang, bool>,
-        IBitwiseOperators<YinYang, YinYang, YinYang>
+        IBitwiseOperators<YinYang, YinYang, YinYang>,
+        IStringConvertibleForJson<YinYang>
     {
         #region creating
         /// <summary>
@@ -322,6 +326,18 @@ namespace YiJingFramework.Core
         public static bool operator !=(YinYang left, YinYang right)
         {
             return left.IsYang != right.IsYang;
+        }
+        #endregion
+
+        #region serializing
+        static bool IStringConvertibleForJson<YinYang>.FromStringForJson(string s, out YinYang result)
+        {
+            return TryParse(s, out result);
+        }
+
+        string IStringConvertibleForJson<YinYang>.ToStringForJson()
+        {
+            return this.ToString();
         }
         #endregion
     }

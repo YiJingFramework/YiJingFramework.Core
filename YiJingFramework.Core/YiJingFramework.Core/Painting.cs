@@ -5,6 +5,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.Json.Serialization;
+using YiJingFramework.Serialization;
 
 namespace YiJingFramework.Core
 {
@@ -14,9 +16,11 @@ namespace YiJingFramework.Core
     /// A painting made up by the yin and yang lines.
     /// The lower a line, the smaller its index.
     /// </summary>
+    [JsonConverter(typeof(JsonConverterOfStringConvertibleForJson<Painting>))]
     public sealed class Painting :
         IReadOnlyList<YinYang>, IComparable<Painting>, IEquatable<Painting>,
-        IParsable<Painting>, IEqualityOperators<Painting, Painting, bool>
+        IParsable<Painting>, IEqualityOperators<Painting, Painting, bool>,
+        IStringConvertibleForJson<Painting>
     {
         private readonly YinYang[] lines;
         /// <summary>
@@ -379,6 +383,19 @@ namespace YiJingFramework.Core
                 r[position] = new YinYang(bitArray[position]);
 
             return new Painting(r);
+        }
+        #endregion
+
+        #region Serializing
+        static bool IStringConvertibleForJson<Painting>.FromStringForJson(
+            string s, [MaybeNullWhen(false)] out Painting result)
+        {
+            return TryParse(s, out result);
+        }
+
+        string IStringConvertibleForJson<Painting>.ToStringForJson()
+        {
+            return this.ToString();
         }
         #endregion
     }

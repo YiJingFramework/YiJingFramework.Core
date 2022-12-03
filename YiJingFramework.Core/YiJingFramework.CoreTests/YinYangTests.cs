@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Numerics;
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace YiJingFramework.Core.Tests
 {
@@ -163,6 +165,17 @@ namespace YiJingFramework.Core.Tests
             Assert.AreEqual(true, YinYang.Yin >= YinYang.Yin);
 #pragma warning restore CS0618 // 类型或成员已过时
             */
+        }
+        [TestMethod()]
+        public void SerializationTest()
+        {
+            var s = JsonSerializer.Serialize(YinYang.Yin);
+            var d = JsonSerializer.Deserialize<YinYang>(s);
+            Assert.IsFalse(d.IsYang);
+
+            s = JsonSerializer.Serialize(YinYang.Yang);
+            d = JsonSerializer.Deserialize<YinYang>(s);
+            Assert.IsTrue(d.IsYang);
         }
     }
 }

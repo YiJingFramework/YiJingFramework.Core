@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace YiJingFramework.Core.Tests
 {
@@ -300,6 +301,23 @@ namespace YiJingFramework.Core.Tests
                     Assert.IsFalse(new Painting(lines2) == new Painting(lines1));
                     Assert.IsTrue(new Painting(lines2) != new Painting(lines1));
                 }
+            }
+        }
+        [TestMethod()]
+        public void SerializationTest()
+        {
+            Random random = new Random();
+            for (int i = 0; i < 20; i++)
+            {
+                var c = random.Next(0, 100);
+                List<YinYang> lines1 = new();
+                for (int j = 0; j < c; j++)
+                    lines1.Add((YinYang)random.Next(0, 2));
+                var painting = new Painting(lines1);
+
+                var s = JsonSerializer.Serialize(painting);
+                var d = JsonSerializer.Deserialize<Painting>(s);
+                Assert.IsTrue(d.SequenceEqual(painting));
             }
         }
     }
